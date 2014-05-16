@@ -1,0 +1,54 @@
+test
+
+$(document).ready(function(){
+	/*--- Display information modal box ---*/
+	$(".what").click(function(){
+		$(".overlay").fadeIn(1000);
+	});
+	/*--- Hide information modal box ---*/
+	$("a.close").click(function(){
+		$(".overlay").fadeOut(1000);
+	});
+
+	//in which I declare a heck bunch of variables I will need later
+	var userGuessNum;
+	
+
+	//function which evaluates if the users number is the same, 
+	//different, or close to the secret number
+	var evaluateNum = function (){
+		//if it's not a number it tells us
+		if (isNaN(userGuessNum)||userGuessNum<1||userGuessNum>100){
+			alert("not a valid number");
+		}
+		//else if it's the same as the secret number it tells we won
+		else if (userGuessNum==secretNum){
+			alert("you win!");
+		}
+		else {
+			alert("keep trying");
+		}
+	//the new game function
+	//var newGame = function () {
+		
+		//var secretNum = Math.floor(Math.random()*101);
+		//alert(secretNum);
+		//then when user clicks guess button...
+		//$(document).on("click","#guessButton",function(){
+			//get val from userGuess
+		//	userGuessNum = $("#userGuess").val();
+			//turns user's input into a number
+		//	userGuessNum = +userGuessNum;
+		//	evaluateNum();
+		//	userGuessNum=0;
+	//};
+
+
+	//when user presses new button, a new game starts. 
+	$(document).on("click",".new",function(){
+		var secretNum = Math.floor(Math.random()*101);
+		alert(secretNum);
+	});
+
+};
+});
