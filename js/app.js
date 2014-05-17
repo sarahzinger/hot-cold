@@ -8,67 +8,87 @@ $(document).ready(function(){
 		$(".overlay").fadeOut(1000);
 	});
 
-
+//global var
 var counter =0;
+var secretNum;
+var userGuessNum;
 
-//generates a secret num
-var secretNum = Math.floor(Math.random()*101);
+//function that generates a secret num
+var makeSecretNum = function(){
+	secretNum= Math.floor(Math.random()*101);
+};
 
-//on guess...
+//new game function
+var newGame = function(){
+
+	counter=0;
+	$('#count').empty().append(counter);
+	$("#guessList").empty();
+	$("#feedback").empty().append("Make Your Guess!");
+
+	makeSecretNum();
+};
+
+//function to give feedback
+var feedbacker = function(feedback){
+	$("#feedback").empty().append(feedback);
+};
+
+//function to record and count guesses
+var upTheCount = function(){
+	counter++;
+	$('#count').empty().append(counter);
+	$("#guessList").append(userGuessNum+ ", ");
+};
+
+//on clicking the guess button...
 $(document).on("click","#guessButton",function(event){
+	
 	//prevents the page from reloading 
 	event.preventDefault();
+	
 	//gets number from user
-	var userGuessNum = $("#userGuess").val();
+	userGuessNum = $("#userGuess").val();
 	userGuessNum = +userGuessNum;
 	
-	
-	
-	//if it's not a number it tells us
+	//evaluates if the number is invalid, a winner, hot, cold or inbetween
+		//and tells the user so.
 	if (isNaN(userGuessNum)||userGuessNum<1||userGuessNum>100){
-		alert("not a valid number");
+		alert("That's not a valid number, please pick a number between 1-100");
 	}
 	else if (userGuessNum==secretNum){
-		$("#feedback").empty().append("Congrats! You Win!!"+ "<br>"+"Better press new game, up at the top-right");
+		feedbacker("Congrats! You Win!!"+ "<br>"+"Better press new game, up at the top-right");
+		counter++;
+		$('#count').empty().append(counter);
+		$("#guessList").append(userGuessNum);
 	}
 	else if(secretNum-5<userGuessNum&&secretNum+5>userGuessNum) {
-		//gives feedback
-		$("#feedback").empty().append("SO HOT");
-		//updates count
-		counter++;
-		$('#count').empty().append(counter);
-		//need to write down number...
-		$("#guessList").append(userGuessNum+ ", ");
+		feedbacker("SO HOT!!");
+		upTheCount();
 	}
 	else if(secretNum-10<userGuessNum&&secretNum+10>userGuessNum){
-		$("#feedback").empty().append("warm :) keep trying!");
-		$("#guessList").append(userGuessNum+ ", ");
-		counter++;
-		$('#count').empty().append(counter);
+		feedbacker("warm!");
+		upTheCount();
 	}
 	else if (secretNum-25<userGuessNum&&secretNum+25>userGuessNum){
-		$("#feedback").empty().append("a little on the chilly side there, but keep trying!");
-		$("#guessList").append(userGuessNum+ ", ");
-		counter++;
-		$('#count').empty().append(counter);
+		feedbacker("lukewarm :/");
+		upTheCount();
 	}
 	else if (secretNum-50<userGuessNum&&secretNum+50>userGuessNum){
-		$("#feedback").empty().append("Dang, you're cold. Better try again!");
-		$("#guessList").append(userGuessNum+ ", ");
-		counter++;
-		$('#count').empty().append(counter);
+		feedbacker("It's cold in here! Try again");
+		upTheCount();
 	}
 	else if (secretNum-99<userGuessNum&&secretNum+99>userGuessNum){
-		$("#feedback").empty().append("Ice Cold. Try again!");
-		$("#guessList").append(userGuessNum+ ", ");
-		counter++;
-		$('#count').empty().append(counter);
+		feedbacker("ICE Cold. Try again!");
+		upTheCount();
 	}
 
 });
-$(document).on("click",".new",function(){
-	location.reload();
-});
+
+newGame();
+
+//clicking new button triggers new game
+$(document).on("click",".new", newGame);
     
 });
 
