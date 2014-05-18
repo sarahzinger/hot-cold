@@ -34,11 +34,12 @@ var feedbacker = function(feedback){
 	$("#feedback").empty().append(feedback);
 };
 
-//function to record and count guesses
+//function to record and count guesses and reset form
 var upTheCount = function(){
 	counter++;
 	$('#count').empty().append(counter);
 	$("#guessList").append(userGuessNum+ ", ");
+	userGuessNum=$('#userGuess').val('');
 };
 
 //on clicking the guess button...
@@ -55,16 +56,20 @@ $(document).on("click","#guessButton",function(event){
 		//and tells the user so.
 	if (isNaN(userGuessNum)||userGuessNum<1||userGuessNum>100){
 		alert("That's not a valid number, please pick a number between 1-100");
+		userGuessNum=$('#userGuess').val('');
 	}
 	else if (userGuessNum==secretNum){
 		feedbacker("Congrats! You Win!!"+ "<br>"+"Better press new game, up at the top-right");
 		counter++;
 		$('#count').empty().append(counter);
 		$("#guessList").append(userGuessNum);
+		userGuessNum=$('#userGuess').val('');
+		
 	}
 	else if(secretNum-5<userGuessNum&&secretNum+5>userGuessNum) {
 		feedbacker("SO HOT!!");
 		upTheCount();
+
 	}
 	else if(secretNum-10<userGuessNum&&secretNum+10>userGuessNum){
 		feedbacker("warm!");
