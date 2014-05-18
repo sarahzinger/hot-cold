@@ -64,7 +64,7 @@ $(document).on("click","#guessButton",function(event){
 		$('#count').empty().append(counter);
 		$("#guessList").append(userGuessNum);
 		userGuessNum=$('#userGuess').val('');
-		
+		$(document).off("click","#guessButton");
 	}
 	else if(secretNum-5<userGuessNum&&secretNum+5>userGuessNum) {
 		feedbacker("SO HOT!!");
